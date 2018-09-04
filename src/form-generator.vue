@@ -1,9 +1,18 @@
 <template>
 <v-form ref="form" v-model="validForm" lazy-validation>
-        <v-subheader v-if="schema.title"><p><h3 class="display-1 titleDocumentLabel"><span>Documento: </span><strong class="titleDocument"> {{ schema.title }}</strong></h3></p></v-subheader>
+    <v-toolbar-title v-if="schema.title">
+        Documento:{{ schema.title }}
+    </v-toolbar-title>
+
+        <!--<v-subheader v-if="schema.title">-->
+            <!--<p>-->
+            <!--<h3 class="display-1 titleDocumentLabel">-->
+            <!--<span>Documento: </span><strong class="titleDocument">-->
+            <!--{{ schema.title }}</strong>-->
+        <!--</h3></p></v-subheader>-->
         <div v-for="(schemaItem, schemaItemIndex) in schema">
             <div v-if="schemaItemIndex == 'forms'">
-                <v-stepper v-model="stepper" class="step">
+                <v-stepper v-model="stepper">
                     <v-stepper-header>
                         <template v-for="(steps, index) in schemaItem">
                             <v-stepper-step
@@ -23,7 +32,8 @@
                           :key="`${index+1}-content`"
                           row wrap
                         >
-                            <v-layout row align-right justify-right v-if="steps.helpIcon=='true'">
+                            <v-layout
+                                    row align-right justify-right v-if="steps.helpIcon=='true'">
                                 <v-btn
                                     absolute
                                     dark
@@ -35,11 +45,12 @@
                                 <v-icon x-large light>not_listed_location</v-icon>
                             </v-btn>
                             </v-layout>
-                            <v-layout row wrap >
+                            <v-layout row wrap>
                                 <v-flex xs12 lg12 xl12 >
-                                    <v-card   ref="`${index+1}-vcontent`" >
+                                    <v-card   ref="`${index+1}-vcontent`">
 
-                                        <v-container  fluid grid-list-lg fill-height >
+                                        <v-container  fluid grid-list-lg fill-height
+                                        >
 
                                             <v-layout row align-center justify-center>
                                                 <v-flex xs12 lg5 xl5>
@@ -66,7 +77,7 @@
                                                         </v-carousel-item>
                                                     </v-carousel>
                                                 </v-flex>
-                                                <v-flex xs10 lg7 xl7 >
+                                                <v-flex xs10 lg7 xl7  class="elevation-{28}">
                                                 <div v-for="field in steps.fields" >
                                                      <div v-if="field.groups">
                                                         <v-tabs color="blue" dark slider-color="yellow">
@@ -82,7 +93,9 @@
                                                               :key="tabs.key"
                                                               :id="tabs.key"
                                                             >
-                                                              <v-card flat>
+                                                              <v-card hover
+                                                                      class="elevation-8"
+                                                                      color="grey lighten-4">
                                                                 <div class="ma-3">
                                                                     <div v-for="field in tabs.fields">
                                                                         <v-form-generator-field
@@ -102,16 +115,15 @@
                                                           </v-tabs>
                                                      </div>
                                                     <div v-else>
-                                                        <v-form-generator-field
-                                                        :field="field"
-                                                        :value="localmodel[field.model]"
-                                                        :model="localmodel"
-                                                        :fieldmodel="field.model"
-                                                        v-bind.sync="localmodel"
-                                                       />
+                                                            <v-form-generator-field
+                                                                    :field="field"
+                                                                    :value="localmodel[field.model]"
+                                                                    :model="localmodel"
+                                                                    :fieldmodel="field.model"
+                                                                    v-bind.sync="localmodel"
+                                                            />
                                                     </div>
                                                 </div>
-
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -175,7 +187,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
         <v-form-generator-field-dialogBox
             ref="dialoghelp"
